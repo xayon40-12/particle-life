@@ -19,13 +19,29 @@ pub fn main() -> GameResult {
         });
     let (mut ctx, event_loop) = cb.build()?;
 
+    // ----------------------- parameters -----------------------
+
+    let damping = 1.0 - 1e-4; // velocity damping
+    let d = 300.0; // total interaction distance
+    let nb = 1000; // number of particles
+
+    // Interaction matrix. Must be a square matrix.
+    // Its size NxN represent the numbre N of families (colors).
+    // Positive coefficient correspond to attraction and negative to repultion.
     let interactions = [
         [2.0, 1.0, 0.0, 0.0, 0.0],
-        [-1.0, 2.0, 0.0, 0.0, 0.0],
-        [0.0, 0.0, 0.0, 0.0, 0.0],
-        [0.0, 0.0, 0.0, 0.0, 0.0],
-        [0.0, 0.0, 0.0, 0.0, 0.0],
+        [0.0, 2.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 2.0, 1.0, 0.0],
+        [0.0, 0.0, 0.0, 2.0, 1.0],
+        [0.0, 0.0, 0.0, 0.0, 2.0],
     ];
+    // let interactions = [
+    //     [2.0, 1.0, 0.0, 0.0, 0.0],
+    //     [-1.0, 2.0, 0.0, 0.0, 0.0],
+    //     [0.0, 0.0, 0.0, 0.0, 0.0],
+    //     [0.0, 0.0, 0.0, 0.0, 0.0],
+    //     [0.0, 0.0, 0.0, 0.0, 0.0],
+    // ];
     // let interactions = [
     //     [2.0, 1.0, -1.0, 1.0, -1.0],
     //     [-1.0, 2.0, 1.0, -1.0, 1.0],
@@ -34,9 +50,8 @@ pub fn main() -> GameResult {
     //     [1.0, -1.0, 1.0, -1.0, 2.0],
     // ];
     // let interactions = [[-1.0, 1.0, 0.0], [1.0, -1.0, 10.0], [0.0, 10.0, 10.0]];
-    let damping = 1.0 - 1e-4;
-    let d = 100.0;
-    let nb = 1000;
+
+    // ----------------------------------------------------------
 
     let mut state = World::new(size, interactions, damping);
     state.initialize_particles(nb, d);

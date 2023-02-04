@@ -36,7 +36,8 @@ impl<'a, const N: usize> World<N> {
         }
     }
 
-    pub fn initialize_particles(&mut self, num: usize, d: f32) {
+    pub fn initialize_particles(&mut self, num: usize, total_interation_distance: f32) {
+        let d = total_interation_distance / 3.0;
         let mut rng = rand::thread_rng();
         for i in 0..N {
             self.colors[i] = (rng.gen::<u8>(), rng.gen::<u8>(), rng.gen::<u8>()).into();
