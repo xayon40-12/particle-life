@@ -1,5 +1,4 @@
 use ggez::event;
-use ggez::input::mouse;
 use ggez::GameResult;
 use particle_life::world::World;
 
@@ -17,7 +16,7 @@ pub fn main() -> GameResult {
             height: h,
             ..Default::default()
         });
-    let (mut ctx, event_loop) = cb.build()?;
+    let (ctx, event_loop) = cb.build()?;
 
     // ----------------------- parameters -----------------------
 
@@ -55,7 +54,5 @@ pub fn main() -> GameResult {
 
     let mut state = World::new(size, interactions, damping);
     state.initialize_particles(nb, d);
-    mouse::set_cursor_grabbed(&mut ctx, true)?;
-    mouse::set_cursor_hidden(&mut ctx, true);
     event::run(ctx, event_loop, state)
 }
